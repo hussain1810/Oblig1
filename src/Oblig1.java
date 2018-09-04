@@ -1,8 +1,12 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.NoSuchElementException;
 
 public class Oblig1 {
+
     public static void main (String[] args) {
+        /*
+    }
         int[] a = {7, 2, 13, 10, 4};
         int[] b = Arrays.copyOf(a, a.length);
         int[]c = {};
@@ -29,7 +33,7 @@ public class Oblig1 {
         System.out.println("*****************************************************************************************");
 
         System.out.println();
-
+*/
         int[] t = {3, 1, 2, 3, 1, 2};
         System.out.println("*************************************** OPPGAVE 3 ***************************************");
         //System.out.println("USORTERT LISTE: " + antallUlikeSortert(d));
@@ -37,7 +41,7 @@ public class Oblig1 {
         System.out.println("USORTERT LISTE; ANTALL ULIKE: " + antallUlikeUsortert(t));
         //System.out.println("SORTERT LISTE; ANTALL ULIKE: " + antallUlikeUsortert(f));
         System.out.println("*****************************************************************************************");
-
+/*
         System.out.println();
 
         System.out.println("*************************************** OPPGAVE 4 ***************************************");
@@ -46,7 +50,7 @@ public class Oblig1 {
         delsortering(h);
         System.out.println("ETTER: " + Arrays.toString(h));
         System.out.println("*****************************************************************************************");
-    }
+    */}
 
 
     /****
@@ -56,8 +60,8 @@ public class Oblig1 {
      */
     public static int maks(int[] a)
     {
-        if (a.length < 0) {
-            throw new IllegalArgumentException("Tabellen er tom!");
+        if (a.length < 1) {
+            throw new NoSuchElementException("Tabellen er tom!");
         }
 
         for (int i = 0; i < a.length-1; i++) {
@@ -125,25 +129,41 @@ public class Oblig1 {
             return 0;
         }
 
-        int antallUlike = 1;
+        int antallUlike = 0;
+        int m = maks0(a);
+        System.out.println("maks: " + m);
+        int startVerdi = 0;
 
-        for(int i =0; i < a.length; i++){
-            for(int j=0; j < a.length; j++) {
-                if (a[i] < a[j]) {
-                    int temp = a[i];
-                    a[i] = a[j];
-                    a[j] = temp;
+        for(int i = 0; i < m; i++){
+            for (int j : a){
+                if(startVerdi == j){
+                    antallUlike++;
+                    break;
                 }
             }
-        }
-
-        for(int i=0; i < a.length-1; i++){
-            if(a[i] != a[i+1]){
-                antallUlike++;
+            if(startVerdi > m){
+                break;
             }
+
+            startVerdi++;
         }
 
         return antallUlike;
+    }
+
+    public static int maks0(int[] a){
+
+        int m = 0;            // indeks til minste verdi i a[fra:til>
+        int maksverdi = a[0];  // minste verdi i a[fra:til>
+
+        for(int i = 0 + 1; i < a.length-1; i++){
+            if(a[i] > maksverdi){
+                m = i;              // indeks til minste verdi oppdateres
+                maksverdi = a[m];    // minste verdi oppdateres
+            }
+        }
+
+        return a[m];       // posisjonen til minste verdi i a[fra:til>
     }
 
     public static void delsortering(int[] a){
