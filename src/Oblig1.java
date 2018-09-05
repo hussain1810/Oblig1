@@ -6,7 +6,6 @@ public class Oblig1 {
 
     public static void main (String[] args) {
         /*
-    }
         int[] a = {7, 2, 13, 10, 4};
         int[] b = Arrays.copyOf(a, a.length);
         int[]c = {};
@@ -33,15 +32,15 @@ public class Oblig1 {
         System.out.println("*****************************************************************************************");
 
         System.out.println();
-*/
-        int[] t = {3, 1, 2, 3, 1, 2};
+
+        int[] t = {6,2,4,6,9,1,4,9,10};
         System.out.println("*************************************** OPPGAVE 3 ***************************************");
         //System.out.println("USORTERT LISTE: " + antallUlikeSortert(d));
         //System.out.println("TOM LISTE; ANTALL ULIKE: " + antallUlikeUsortert(d));
         System.out.println("USORTERT LISTE; ANTALL ULIKE: " + antallUlikeUsortert(t));
         //System.out.println("SORTERT LISTE; ANTALL ULIKE: " + antallUlikeUsortert(f));
         System.out.println("*****************************************************************************************");
-/*
+
         System.out.println();
 
         System.out.println("*************************************** OPPGAVE 4 ***************************************");
@@ -50,7 +49,33 @@ public class Oblig1 {
         delsortering(h);
         System.out.println("ETTER: " + Arrays.toString(h));
         System.out.println("*****************************************************************************************");
-    */}
+    */
+    /*
+        int[] x = {-4,-1,3,0,2,-3};
+        int[] z = {1,2,3,4,5,6};
+        System.out.println("*************************************** OPPGAVE 5 ***************************************");
+        //delsortering(x);
+        delsortering(z);
+        //System.out.println("LISTE SORTERT X: " + Arrays.toString(x));
+        System.out.println("LISTE SORTERT Z: " + Arrays.toString(z));
+        System.out.println("*****************************************************************************************");
+    */
+    /*
+        char[] a = {};
+        System.out.println("*************************************** OPPGAVE 5 ***************************************");
+        rotasjon(a);
+        System.out.println("LISTE ROTERT: " + Arrays.toString(a));
+        System.out.println("*****************************************************************************************");
+        */
+
+        char[] a = {'A','B','C','D','E','F','G','H','I','J'};
+        System.out.println("*************************************** OPPGAVE 6 ***************************************");
+        System.out.println(Arrays.toString(a));
+        rotasjon(a,3);
+        System.out.println(Arrays.toString(a));rotasjon(a,-2);
+        System.out.println(Arrays.toString(a));
+        System.out.println("*****************************************************************************************");
+    }
 
 
     /****
@@ -129,12 +154,15 @@ public class Oblig1 {
             return 0;
         }
 
+        if(a.length == 1){
+            return 1;
+        }
+
         int antallUlike = 0;
         int m = maks0(a);
-        System.out.println("maks: " + m);
         int startVerdi = 0;
 
-        for(int i = 0; i < m; i++){
+        for(int i = 0; i <= m; i++){
             for (int j : a){
                 if(startVerdi == j){
                     antallUlike++;
@@ -144,7 +172,6 @@ public class Oblig1 {
             if(startVerdi > m){
                 break;
             }
-
             startVerdi++;
         }
 
@@ -156,7 +183,7 @@ public class Oblig1 {
         int m = 0;            // indeks til minste verdi i a[fra:til>
         int maksverdi = a[0];  // minste verdi i a[fra:til>
 
-        for(int i = 0 + 1; i < a.length-1; i++){
+        for(int i = 0 + 1; i < a.length; i++){
             if(a[i] > maksverdi){
                 m = i;              // indeks til minste verdi oppdateres
                 maksverdi = a[m];    // minste verdi oppdateres
@@ -166,42 +193,105 @@ public class Oblig1 {
         return a[m];       // posisjonen til minste verdi i a[fra:til>
     }
 
-    public static void delsortering(int[] a){
-        selectionSort(a);
 
-        for(int i = 0; i < a.length; i++){
-            for(int j = 0; j < a.length-1; j++){
-                if(a[j] % 2 == 0){
-                    bytt(a, j+1, j);
+    /***
+     * Oppgave 4
+     * @param a - liste a
+     */
+    public static void delsortering(int[] a){
+        int v = 0; int h = a.length-1;
+
+        int antallOddetall = finnOddetall(a);
+
+        for(int i = v; i < a.length; i++){
+            for(int j = h; j >= antallOddetall; j--){
+                if((a[v] % 2 == 0) && (a[h] % 2 != 0)){
+                    bytt(a, v++, h--);
+                    break;
+                } else if((a[v] % 2 == 0) && (a[h] % 2 == 0)) {
+                    h--;
+                    break;
+                }
+                else if((a[v] % 2 != 0) && (a[h] % 2 != 0)){
+                    v++;
+                    break;
+                }
+                else if((a[v] % 2 != 0) && (a[h] % 2 == 0)){
+                    v++;
+                    h--;
+                    break;
                 }
             }
         }
+        Arrays.sort(a, 0, antallOddetall);
+        Arrays.sort(a, antallOddetall, a.length);
     }
 
-    public static void selectionSort(int[] a){
-        for(int i = 0; i < a.length-1; i++){
-            int max_index = findMin(a, i, a.length);
-            int temp = a[max_index];
-            a[max_index] = a[i];
-            a[i] = temp;
-        }
-    }
+    public static int finnOddetall(int[]a){
+        int antallOddetall = 0;
 
-    public static int findMin(int[] a, int fra, int til){
-        int current_min = a[fra];
-        int current_index = fra;
-
-        for(int i = fra+1; i < til; i++){
-            if(a[i] < current_min){
-                current_min = a[i];
-                current_index = i;
-            }
+        for(int i = 0; i < a.length; i++){
+            if(a[i] % 2 != 0) antallOddetall++;
         }
 
-        return current_index;
+        return antallOddetall;
     }
 
     public static void bytt(int[] a, int i, int j){
         int temp = a[i]; a[i] = a[j]; a[j] = temp;
+    }
+
+    // OPPGAVE 5
+    public static void rotasjon(char[] a){
+        char temp = 0;
+
+        if(a.length > 0){
+            temp = a[a.length-1];
+        }
+        char[] b = new char[a.length];
+
+
+        for(int i = 0; i < a.length-1; i++){
+            b[i+1] = a[i];
+        }
+
+        if(temp > 0) {
+            b[0] = temp;
+        }
+
+        for(int i = 0; i < a.length; i++){
+            a[i] = b[i];
+        }
+    }
+
+    // OPPGAVE 6
+    public static void rotasjon(char[] a, int k){
+        int l = a.length;
+        if(l < 2) return;
+
+        if ((k %= l) < 0) k += l;
+
+        int s = gcd(l, k);
+
+        for (int i = 0; i < s; i++) {
+            char verdi = a[i];
+
+            for(int j = i - k, t = i; j != i; j -= k){
+                if (j < 0) {
+                    j += l;
+                }
+                a[t] = a[j]; t = j;
+            }
+
+            a[i + k] = verdi;
+        }
+    }
+
+    public static int gcd(int l, int k){
+        return k == 0 ? l : gcd(k, l % k);
+    }
+
+    public static void bytt(char[] a, int i, int j){
+        char temp = a[i]; a[i] = a[j]; a[j] = temp;
     }
 }
