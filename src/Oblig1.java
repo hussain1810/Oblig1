@@ -66,7 +66,7 @@ public class Oblig1 {
         rotasjon(a);
         System.out.println("LISTE ROTERT: " + Arrays.toString(a));
         System.out.println("*****************************************************************************************");
-        */
+
 
         char[] a = {'A','B','C','D','E','F','G','H','I','J'};
         System.out.println("*************************************** OPPGAVE 6 ***************************************");
@@ -74,6 +74,19 @@ public class Oblig1 {
         rotasjon(a,3);
         System.out.println(Arrays.toString(a));rotasjon(a,-2);
         System.out.println(Arrays.toString(a));
+        System.out.println("*****************************************************************************************");
+*/
+
+        System.out.println("*************************************** OPPGAVE 7 ***************************************");
+        String a = flett("ABC","DEFGH");
+        String b = flett("IJKLMN","OPQ");
+        String c = flett("","AB");
+        System.out.println(a + " " + b + " " + c);
+
+        System.out.println();
+
+        String d = flett("AFK", "BGLP", "CHMQT", "DINRUW", "EJOSVXY");
+        System.out.println(d);
         System.out.println("*****************************************************************************************");
     }
 
@@ -291,7 +304,40 @@ public class Oblig1 {
         return k == 0 ? l : gcd(k, l % k);
     }
 
-    public static void bytt(char[] a, int i, int j){
-        char temp = a[i]; a[i] = a[j]; a[j] = temp;
+    // OPPGAVE 7 a)
+    public static String flett(String s, String t){
+        int k = Math.min(s.length(), t.length());
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < k; i++){
+            sb.append(s.charAt(i)).append(t.charAt(i));
+        }
+
+        sb.append(s.substring(k)).append(t.substring(k));
+
+        return sb.toString();
+    }
+
+    // OPPGAVE 7 b)
+    public static String flett(String... s){
+        StringBuilder sb = new StringBuilder();
+
+        int max = 0;
+        for(int i = 0; i < s.length; i++){
+            if(s[i].length() > max) max = s[i].length();
+        }
+
+        for(int i = 0; i < max; i++){
+            for(int j = 0; j < s.length; j++){
+                if(s[j].length() <= i){
+                    continue;
+                }else {
+                    sb.append(s[j].charAt(i));
+                    continue;
+                }
+            }
+        }
+
+        return sb.toString();
     }
 }
